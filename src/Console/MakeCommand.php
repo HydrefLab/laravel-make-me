@@ -88,7 +88,7 @@ class MakeCommand extends Command
      */
     protected function handleIlluminateCommand(string $command)
     {
-        $this->call('make:' . $command, $this->getIlluminateCommandOptions($command));
+        $this->call('make:' . $command, $this->collectIlluminateCommandOptions($command));
     }
 
     /**
@@ -102,8 +102,8 @@ class MakeCommand extends Command
         $command = 'make:' . $command;
         $commandInstance = $this->getApplication()->find($command);
 
-        $options = (true === method_exists($commandInstance, 'getOptionsForInteractiveMake'))
-            ? $commandInstance->getOptionsForInteractiveMake()
+        $options = (true === method_exists($commandInstance, 'collectOptionsForInteractiveMake'))
+            ? $commandInstance->collectOptionsForInteractiveMake()
             : [];
 
         $commandInstance->run(
@@ -158,7 +158,7 @@ class MakeCommand extends Command
      * @param string $command
      * @return array
      */
-    private function getIlluminateCommandOptions(string $command): array
+    private function collectIlluminateCommandOptions(string $command): array
     {
         $collectorClassName = $this->getIlluminateCommandOptionsCollectorClassName($command);
 
