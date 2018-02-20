@@ -99,7 +99,16 @@ class MakeCommand extends Command
      */
     protected function handleNonIlluminateCommand(string $command)
     {
-        //
+        $command = 'make:' . $command;
+        $commandInstance = $this->getApplication()->find($command);
+
+        $options = (true === method_exists($commandInstance, 'getOptionsForInteractiveMake'))
+            ? $commandInstance->getOptionsForInteractiveMake()
+            : [];
+
+        $commandInstance->run(
+            $this->createInputFromArguments(Arr::add($options, 'command', $command)), $this->output
+        );
     }
 
     /**
