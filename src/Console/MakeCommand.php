@@ -24,7 +24,7 @@ class MakeCommand extends Command
     protected $description = 'Run interactive make command';
 
     /**
-     * List of all make-like commands within Laravel.
+     * List of all make-like commands within Laravel framework.
      *
      * @var array
      */
@@ -88,7 +88,7 @@ class MakeCommand extends Command
      */
     protected function handleIlluminateCommand(string $command)
     {
-        //
+        $this->call('make:' . $command, $this->getIlluminateCommandOptions($command));
     }
 
     /**
@@ -141,6 +141,34 @@ class MakeCommand extends Command
     private function isIlluminateCommand(string $command): bool
     {
         return true === in_array($command, $this->illuminateCommands);
+    }
+
+    /**
+     * Get arguments and options for Illuminate command.
+     *
+     * @param string $command
+     * @return array
+     */
+    private function getIlluminateCommandOptions(string $command): array
+    {
+        $collectorClassName = $this->getIlluminateCommandOptionsCollectorClassName($command);
+
+        if (true === class_exists($collectorClassName)) {
+            return (new $collectorClassName())($this);
+        }
+
+        return [];
+    }
+
+    /**
+     * Get Illuminate command arguments and options gatherer class name.
+     *
+     * @param string $command
+     * @return string
+     */
+    private function getIlluminateCommandOptionsCollectorClassName(string $command): string
+    {
+        return "HydrefLab\\Laravel\\Make\\Console\\CommandOptionsCollectors\\" . ucfirst($command) . 'MakeCommandOptionsCollector';
     }
 
     /**
