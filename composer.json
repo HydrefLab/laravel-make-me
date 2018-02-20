@@ -1,0 +1,25 @@
+{
+    "name": "hydreflab/laravel-make-me",
+    "type": "library",
+    "description": "Interactive Make Command for Laravel",
+    "keywords": ["cli", "command", "console", "laravel", "make"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/HydrefLab/laravel-make-me/issues",
+        "source": "https://github.com/HydrefLab/laravel-make-me"
+    },
+    "authors": [
+        {
+            "name": "Michał Golon",
+            "email": "michal.golon@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "HydrefLab\\Laravel\\Make\\": "src/"
+        }
+    }
+}
