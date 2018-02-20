@@ -73,7 +73,33 @@ class MakeCommand extends Command
             return;
         }
 
-        $this->info('Interactive Make!');
+        $command = $this->askWithCompletion('What would you like to make?', $this->availableCommands->toArray());
+
+        true === $this->isIlluminateCommand($command)
+            ? $this->handleIlluminateCommand($command)
+            : $this->handleNonIlluminateCommand($command);
+    }
+
+    /**
+     * Call Illuminate make-like command.
+     *
+     * @param string $command
+     * @return void
+     */
+    protected function handleIlluminateCommand(string $command)
+    {
+        //
+    }
+
+    /**
+     * Call custom make-like command.
+     *
+     * @param string $command
+     * @return void
+     */
+    protected function handleNonIlluminateCommand(string $command)
+    {
+        //
     }
 
     /**
@@ -104,6 +130,17 @@ class MakeCommand extends Command
             })->toArray();
 
         $this->table(['Commands'], $commands);
+    }
+
+    /**
+     * Check if given command is Illuminate command.
+     *
+     * @param string $command
+     * @return bool
+     */
+    private function isIlluminateCommand(string $command): bool
+    {
+        return true === in_array($command, $this->illuminateCommands);
     }
 
     /**
