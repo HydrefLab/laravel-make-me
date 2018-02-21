@@ -4,7 +4,9 @@ namespace HydrefLab\Laravel\Make\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class MakeCommand extends Command
@@ -75,7 +77,7 @@ class MakeCommand extends Command
 
         $command = $this->askWithCompletion('What would you like to make?', $this->availableCommands->toArray());
 
-        true === $this->isIlluminateCommand($command)
+        $this->isIlluminateCommand($command)
             ? $this->handleIlluminateCommand($command)
             : $this->handleNonIlluminateCommand($command);
     }
@@ -102,9 +104,7 @@ class MakeCommand extends Command
         $command = 'make:' . $command;
         $commandInstance = $this->getApplication()->find($command);
 
-        $options = (true === method_exists($commandInstance, 'collectOptionsForInteractiveMake'))
-            ? $commandInstance->collectOptionsForInteractiveMake()
-            : [];
+        $options = $commandInstance->collectOptionsForInteractiveMake();
 
         $commandInstance->run(
             $this->createInputFromArguments(Arr::add($options, 'command', $command)), $this->output
@@ -118,11 +118,11 @@ class MakeCommand extends Command
      */
     protected function initAvailableCommands()
     {
-        $this->availableCommands = collect(array_keys($this->getApplication()->all()))
-            ->filter(function (string $command) {
-                return Str::startsWith($command, 'make:');
-            })->map(function (string $command) {
-                return str_replace('make:', '', $command);
+        $this->availableCommands = collect($this->getApplication()->all())
+            ->filter(function (SymfonyCommand $command) {
+                return $this->isEligibleCommand($command);
+            })->map(function (Command $command) {
+                return str_replace('make:', '', $command->getName());
             })->values();
     }
 
@@ -149,7 +149,44 @@ class MakeCommand extends Command
      */
     private function isIlluminateCommand(string $command): bool
     {
-        return true === in_array($command, $this->illuminateCommands);
+        return in_array(str_replace('make:', '', $command), $this->illuminateCommands);
+    }
+
+    /**
+     * Check if given command is eligible for interactive make.
+     *
+     * We allow only Laravel commands (not all Symfony Commands) which name
+     * starts with 'make:' and is either Illuminate command or has proper
+     * arguments/options collection method.
+     *
+     * @param SymfonyCommand $command
+     * @return bool
+     */
+    private function isEligibleCommand(SymfonyCommand $command): bool
+    {
+        return $command instanceof Command
+            && Str::startsWith($command->getName(), 'make:')
+            && ($this->isIlluminateCommand($command->getName()) || $this->commandHasCollectMethod($command));
+    }
+
+    /**
+     * Check if custom command has method for collecting arguments and options.
+     *
+     * We check if command has either method or macro called 'collectOptionsForInteractiveMake'.
+     *
+     * @param Command $command
+     * @return bool
+     */
+    private function commandHasCollectMethod(Command $command): bool
+    {
+        if ($command::hasMacro('collectOptionsForInteractiveMake')) {
+            return true;
+        }
+
+        $reflection = new \ReflectionClass($command);
+
+        return $reflection->hasMethod('collectOptionsForInteractiveMake')
+            && $reflection->getMethod('collectOptionsForInteractiveMake')->isPublic();
     }
 
     /**
@@ -162,7 +199,7 @@ class MakeCommand extends Command
     {
         $collectorClassName = $this->getIlluminateCommandOptionsCollectorClassName($command);
 
-        if (true === class_exists($collectorClassName)) {
+        if (class_exists($collectorClassName)) {
             return (new $collectorClassName())($this);
         }
 
