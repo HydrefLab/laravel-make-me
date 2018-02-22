@@ -172,17 +172,11 @@ class MakeCommand extends Command
     /**
      * Check if custom command has method for collecting arguments and options.
      *
-     * We check if command has either method or macro called 'collectInputForInteractiveMake'.
-     *
      * @param Command $command
      * @return bool
      */
     private function commandHasCollectMethod(Command $command): bool
     {
-        if ($command::hasMacro('collectInputForInteractiveMake')) {
-            return true;
-        }
-
         $reflection = new \ReflectionClass($command);
 
         return $reflection->hasMethod('collectInputForInteractiveMake')
