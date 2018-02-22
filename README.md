@@ -1,4 +1,4 @@
-Extendable Interactive Make Command for Laravel
+# Extendable Interactive Make Command for Laravel
 
 ## Installation
 
@@ -40,7 +40,7 @@ Interactive make integrates all default Laravel generator commands.
 If you want to check what's available, simply run:
 
 ```
-php artisan make --list`
+php artisan make --list
 ```
 
 ## Why
@@ -49,6 +49,9 @@ Laravel's Artisan is a great tool. Laravel's generators (make) commands are grea
 often they have a lot of additional options available. However, without checking out the command's 
 code or run command with `--help` option, it is a mystery what additional stuff particular
 command can do. That's why I created this interactive make command. Enjoy!
+
+[Edit]: I recently noticed that there is a similar [package](https://github.com/laracademy/interactive-make) that also
+adds interactive make. Check that out, maybe it will suit you better.
 
 ## Preview
 
