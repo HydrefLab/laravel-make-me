@@ -90,7 +90,7 @@ class MakeCommand extends Command
      */
     protected function handleIlluminateCommand(string $command)
     {
-        $this->call('make:' . $command, $this->collectIlluminateCommandOptions($command));
+        $this->call('make:' . $command, $this->collectIlluminateCommandInput($command));
     }
 
     /**
@@ -104,7 +104,7 @@ class MakeCommand extends Command
         $command = 'make:' . $command;
         $commandInstance = $this->getApplication()->find($command);
 
-        $options = $commandInstance->collectOptionsForInteractiveMake();
+        $options = $commandInstance->collectInputForInteractiveMake();
 
         $commandInstance->run(
             $this->createInputFromArguments(Arr::add($options, 'command', $command)), $this->output
@@ -157,7 +157,7 @@ class MakeCommand extends Command
      *
      * We allow only Laravel commands (not all Symfony Commands) which name
      * starts with 'make:' and is either Illuminate command or has proper
-     * arguments/options collection method.
+     * input collection method.
      *
      * @param SymfonyCommand $command
      * @return bool
@@ -172,21 +172,21 @@ class MakeCommand extends Command
     /**
      * Check if custom command has method for collecting arguments and options.
      *
-     * We check if command has either method or macro called 'collectOptionsForInteractiveMake'.
+     * We check if command has either method or macro called 'collectInputForInteractiveMake'.
      *
      * @param Command $command
      * @return bool
      */
     private function commandHasCollectMethod(Command $command): bool
     {
-        if ($command::hasMacro('collectOptionsForInteractiveMake')) {
+        if ($command::hasMacro('collectInputForInteractiveMake')) {
             return true;
         }
 
         $reflection = new \ReflectionClass($command);
 
-        return $reflection->hasMethod('collectOptionsForInteractiveMake')
-            && $reflection->getMethod('collectOptionsForInteractiveMake')->isPublic();
+        return $reflection->hasMethod('collectInputForInteractiveMake')
+            && $reflection->getMethod('collectInputForInteractiveMake')->isPublic();
     }
 
     /**
@@ -195,9 +195,9 @@ class MakeCommand extends Command
      * @param string $command
      * @return array
      */
-    private function collectIlluminateCommandOptions(string $command): array
+    private function collectIlluminateCommandInput(string $command): array
     {
-        $collectorClassName = $this->getIlluminateCommandOptionsCollectorClassName($command);
+        $collectorClassName = $this->getIlluminateCommandInputCollectorClassName($command);
 
         if (class_exists($collectorClassName)) {
             return (new $collectorClassName())($this);
@@ -207,14 +207,14 @@ class MakeCommand extends Command
     }
 
     /**
-     * Get Illuminate command arguments and options gatherer class name.
+     * Get Illuminate command input collector class name.
      *
      * @param string $command
      * @return string
      */
-    private function getIlluminateCommandOptionsCollectorClassName(string $command): string
+    private function getIlluminateCommandInputCollectorClassName(string $command): string
     {
-        return "HydrefLab\\Laravel\\Make\\Console\\CommandOptionsCollectors\\" . ucfirst($command) . 'MakeCommandOptionsCollector';
+        return "HydrefLab\\Laravel\\Make\\Console\\CommandInputCollectors\\" . ucfirst($command) . 'MakeCommandInputCollector';
     }
 
     /**
