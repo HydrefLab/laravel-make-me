@@ -1,9 +1,11 @@
 # Extendable Interactive Make Command for Laravel
 
+**Make** your life easier with interactive make command!
+
 ## Installation
 
 ```bash
-composer require hydreflab/laravel-make-me`
+composer require hydreflab/laravel-make-me
 ```
 
 ### Laravel >= 5.5
