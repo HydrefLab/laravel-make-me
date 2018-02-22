@@ -1,10 +1,10 @@
 <?php
 
-namespace HydrefLab\Laravel\Make\Console\CommandOptionsCollectors;
+namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
 
-class JobMakeCommandOptionsCollector
+class JobMakeCommandInputCollector
 {
     /**
      * @param Command $command

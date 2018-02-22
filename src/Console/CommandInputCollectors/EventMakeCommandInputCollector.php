@@ -1,10 +1,10 @@
 <?php
 
-namespace HydrefLab\Laravel\Make\Console\CommandOptionsCollectors;
+namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
 
-class ProviderMakeCommandOptionsCollector
+class EventMakeCommandInputCollector
 {
     /**
      * @param Command $command
@@ -13,7 +13,7 @@ class ProviderMakeCommandOptionsCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Provider name')
+            'name' => $command->ask('Event name')
         ];
     }
 }

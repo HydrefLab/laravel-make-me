@@ -1,11 +1,11 @@
 <?php
 
-namespace HydrefLab\Laravel\Make\Console\CommandOptionsCollectors;
+namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class ResourceMakeCommandOptionsCollector
+class ResourceMakeCommandInputCollector
 {
     /**
      * @param Command $command

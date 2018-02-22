@@ -1,10 +1,10 @@
 <?php
 
-namespace HydrefLab\Laravel\Make\Console\CommandOptionsCollectors;
+namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
 
-class MiddlewareMakeCommandOptionsCollector
+class SeederMakeCommandInputCollector
 {
     /**
      * @param Command $command
@@ -13,7 +13,7 @@ class MiddlewareMakeCommandOptionsCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Middleware name')
+            'name' => $command->ask('Seeder name')
         ];
     }
 }
