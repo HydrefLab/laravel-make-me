@@ -1,7 +1,7 @@
 {
     "name": "hydreflab/laravel-make-me",
     "type": "library",
-    "description": "Interactive Make Command for Laravel",
+    "description": "Extendable Interactive Make Command for Laravel",
     "keywords": ["cli", "command", "console", "laravel", "make"],
     "license": "MIT",
     "support": {
@@ -20,6 +20,13 @@
     "autoload": {
         "psr-4": {
             "HydrefLab\\Laravel\\Make\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "HydrefLab\\Laravel\\Make\\MakeServiceProvider"
+            ]
         }
     }
 }
