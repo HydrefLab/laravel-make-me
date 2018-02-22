@@ -2,7 +2,9 @@ Extendable Interactive Make Command for Laravel
 
 ## Installation
 
-`composer require hydreflab/laravel-make-me`
+```bash
+composer require hydreflab/laravel-make-me`
+```
 
 ### Laravel >= 5.5
 
@@ -12,7 +14,7 @@ Package uses Laravel auto-discovery feature, so no service provider registration
 
 Manual service provider registration is required in `config/app.php`:
 
-```
+```bash
 'providers' => [
     // ...
     
@@ -26,7 +28,9 @@ Manual service provider registration is required in `config/app.php`:
 
 To use interactive make, just run:
 
-`php artisan make`
+```bash
+php artisan make
+```
 
 After that, you'll be asked what kind of class do you want to generate. Then, you'll be asked a 
 series of questions in order to prepare class that suits your needs.
@@ -35,7 +39,9 @@ Interactive make integrates all default Laravel generator commands.
 
 If you want to check what's available, simply run:
 
-`php artisan make --list`
+```
+php artisan make --list`
+```
 
 ## Why
 
@@ -44,10 +50,14 @@ often they have a lot of additional options available. However, without checking
 code or run command with `--help` option, it is a mystery what additional stuff particular
 command can do. That's why I created this interactive make command. Enjoy!
 
+## Preview
+
+![Preview](preview.gif)
+
 ## Extendability
 
-Quite often, as project advances, you end up in situation that you're creating your own generator
-commands, your own _make:something_. It would be awesome if this new make could be included
+Quite often, as project advances, you end up in a situation that you're creating your own generator
+commands, your own _make:something_. It would be awesome if this new command could be included
 in the interactive make. Hey, that's possible.
 
 To add custom (non-default) generator command to the interactive make:
@@ -113,6 +123,8 @@ class MyAwesomeMakeCommand extends \Illuminate\Console\Command
     }
     
     /**
+     * Collect options for the interactive make command.
+     * 
      * @return array
      */
     public function collectInputForInteractiveMake()
@@ -126,7 +138,3 @@ class MyAwesomeMakeCommand extends \Illuminate\Console\Command
 ```
 
 That's it. `MyAwesomeMakeCommand` command will now be included in the interactive make as `awesome`.
-
-## Preview
-
-![Preview](preview.gif)
