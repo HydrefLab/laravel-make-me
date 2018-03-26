@@ -13,7 +13,7 @@ class ExceptionMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Exception name'),
+            'name'     => $command->ask('Exception name'),
             '--render' => $command->confirm('Add an empty render method?'),
             '--report' => $command->confirm('Add an empty report method?'),
         ];

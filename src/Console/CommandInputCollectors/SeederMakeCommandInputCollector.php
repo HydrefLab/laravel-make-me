@@ -13,7 +13,7 @@ class SeederMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Seeder name')
+            'name' => $command->ask('Seeder name'),
         ];
     }
 }

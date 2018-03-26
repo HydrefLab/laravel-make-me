@@ -26,14 +26,12 @@ class FactoryMakeCommandInputCollector
     {
         $factory = $command->ask('Factory name');
 
-        if (!Str::endsWith($factory, 'Factory')
-            && $command->confirm("Append 'Factory' postfix to the factory name?")
-        ) {
+        if (!Str::endsWith($factory, 'Factory') && $command->confirm("Append 'Factory' postfix to the factory name?")) {
             $factory .= 'Factory';
         }
 
         return [
-            'name' => $factory
+            'name' => $factory,
         ];
     }
 
@@ -46,8 +44,8 @@ class FactoryMakeCommandInputCollector
         $model = $command->ask('Model name');
 
         return [
-            'name' => $model . 'Factory',
-            '-m' => $model
+            'name'    => $model . 'Factory',
+            '--model' => $model,
         ];
     }
 }

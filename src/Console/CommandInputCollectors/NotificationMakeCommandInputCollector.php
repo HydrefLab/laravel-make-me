@@ -12,15 +12,21 @@ class NotificationMakeCommandInputCollector
      */
     public function __invoke(Command $command): array
     {
-        $options = [
-            'name' => $command->ask('Notification name'),
-            '-f' => $command->confirm('Override existing notification class?'),
+        return [
+            'name'       => $command->ask('Notification name'),
+            '--markdown' => $this->collectMarkdownOption($command),
+            '--force'    => $command->confirm('Override existing notification class?'),
         ];
+    }
 
-        if ($command->confirm('Generate a new Markdown template for the notification?')) {
-            $options['-m'] = $command->ask('Template name');
-        }
-
-        return $options;
+    /**
+     * @param Command $command
+     * @return bool|string
+     */
+    private function collectMarkdownOption(Command $command)
+    {
+        return $command->confirm('Generate a new Markdown template for the notification?')
+            ? $command->ask('Template name')
+            : false;
     }
 }

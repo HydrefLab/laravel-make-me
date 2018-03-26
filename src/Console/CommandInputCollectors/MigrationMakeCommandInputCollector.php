@@ -14,7 +14,7 @@ class MigrationMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         $options = $command->confirm('Are you creating new table?')
-            ? $this->collectCrateTableOptions($command)
+            ? $this->collectCreateTableOptions($command)
             : $this->collectAlterTableOptions($command);
 
         if (!$command->confirm('Create migration in default migration folder?', 'yes')) {
@@ -28,7 +28,7 @@ class MigrationMakeCommandInputCollector
      * @param Command $command
      * @return array
      */
-    private function collectCrateTableOptions(Command $command): array
+    private function collectCreateTableOptions(Command $command): array
     {
         $table = $command->ask('New table name');
 

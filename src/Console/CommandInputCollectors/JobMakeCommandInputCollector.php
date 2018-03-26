@@ -13,7 +13,7 @@ class JobMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Job name'),
+            'name'   => $command->ask('Job name'),
             '--sync' => $command->confirm('Is the job synchronous?'),
         ];
     }

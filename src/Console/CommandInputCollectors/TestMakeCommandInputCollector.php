@@ -13,7 +13,7 @@ class TestMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Test name'),
+            'name'   => $command->ask('Test name'),
             '--unit' => $command->confirm('Is this a unit test?'),
         ];
     }

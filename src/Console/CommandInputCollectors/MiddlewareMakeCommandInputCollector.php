@@ -13,7 +13,7 @@ class MiddlewareMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Middleware name')
+            'name' => $command->ask('Middleware name'),
         ];
     }
 }

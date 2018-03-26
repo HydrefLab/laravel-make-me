@@ -12,20 +12,40 @@ class ControllerMakeCommandInputCollector
      */
     public function __invoke(Command $command): array
     {
-        $options['name'] = $command->ask('Controller name');
+        $options = [
+            'name' => $command->ask('Controller name'),
+        ];
 
         if ($command->confirm('Is this a resource controller?')) {
-            $options['-r'] = true;
-
-            if ($command->confirm('Is this a nested resource controller?')) {
-                $options['-p'] = $command->ask('Parent model name');
-            }
-
-            if ($command->confirm('Set route model binding?')) {
-                $options['-m'] = $command->ask('Model name');
-            }
+            $options = array_merge($options, [
+                '--resource' => true,
+                '--parent'   => $this->collectParentOption($command),
+                '--model'    => $this->collectModelOption($command),
+            ]);
         }
 
         return $options;
+    }
+
+    /**
+     * @param Command $command
+     * @return bool|string
+     */
+    private function collectParentOption(Command $command)
+    {
+        return $command->confirm('Is this a nested resource controller?')
+            ? $command->ask('Parent model name')
+            : false;
+    }
+
+    /**
+     * @param Command $command
+     * @return bool|string
+     */
+    private function collectModelOption(Command $command)
+    {
+        return $command->confirm('Set route model binding?')
+            ? $command->ask('Model name')
+            : false;
     }
 }

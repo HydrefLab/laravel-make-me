@@ -13,7 +13,7 @@ class EventMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Event name')
+            'name' => $command->ask('Event name'),
         ];
     }
 }

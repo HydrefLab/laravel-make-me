@@ -13,7 +13,7 @@ class ProviderMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Provider name')
+            'name' => $command->ask('Provider name'),
         ];
     }
 }

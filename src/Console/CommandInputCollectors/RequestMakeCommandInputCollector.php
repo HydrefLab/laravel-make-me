@@ -13,7 +13,7 @@ class RequestMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Request name')
+            'name' => $command->ask('Request name'),
         ];
     }
 }

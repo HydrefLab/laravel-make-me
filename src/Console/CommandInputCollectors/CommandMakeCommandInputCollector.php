@@ -13,8 +13,8 @@ class CommandMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Command name'),
-            '--command' => $command->ask('Command name use in the terminal', 'command:name')
+            'name'      => $command->ask('Command name'),
+            '--command' => $command->ask('Command name use in the terminal', 'command:name'),
         ];
     }
 }

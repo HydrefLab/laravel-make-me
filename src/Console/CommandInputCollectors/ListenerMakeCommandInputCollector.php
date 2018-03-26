@@ -12,15 +12,21 @@ class ListenerMakeCommandInputCollector
      */
     public function __invoke(Command $command): array
     {
-        $options = [
-            'name' => $command->ask('Listener name'),
+        return [
+            'name'     => $command->ask('Listener name'),
             '--queued' => $command->confirm('Should event listener be queued?'),
+            '--event'  => $this->collectEventOption($command),
         ];
+    }
 
-        if ($command->confirm('Do you want to listen for a particular event?')) {
-            $options['-e'] = $command->ask('Event class to listen for');
-        }
-
-        return $options;
+    /**
+     * @param Command $command
+     * @return bool|string
+     */
+    private function collectEventOption(Command $command)
+    {
+        return $command->confirm('Do you want to listen for a particular event?')
+            ? $command->ask('Event class to listen for')
+            : false;
     }
 }

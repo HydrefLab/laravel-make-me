@@ -25,7 +25,7 @@ class ResourceMakeCommandInputCollector
     private function collectResourceOptions(Command $command): array
     {
         return [
-            'name' => $command->ask('Resource name')
+            'name' => $command->ask('Resource name'),
         ];
     }
 
@@ -44,8 +44,8 @@ class ResourceMakeCommandInputCollector
         }
 
         return [
-            'name' => $resource,
-            '-c' => true
+            'name'         => $resource,
+            '--collection' => true,
         ];
     }
 }

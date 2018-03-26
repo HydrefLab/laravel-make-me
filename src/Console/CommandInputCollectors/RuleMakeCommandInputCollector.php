@@ -13,7 +13,7 @@ class RuleMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Rule name')
+            'name' => $command->ask('Rule name'),
         ];
     }
 }

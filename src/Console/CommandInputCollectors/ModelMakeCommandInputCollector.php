@@ -13,25 +13,25 @@ class ModelMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         $options = [
-            'name' => $command->ask('Model name'),
-            '-p' => $command->confirm('Is the model a pivot model?'),
+            'name'    => $command->ask('Model name'),
+            '--pivot' => $command->confirm('Is the model a pivot model?'),
             '--force' => $command->confirm('Override existing model class?'),
         ];
 
         if ($command->confirm('Generate a migration, factory, and resource controller for the model?')) {
             return array_merge($options, [
-                '-a' => true,
+                '--all' => true,
             ]);
         }
 
         $options = array_merge($options, [
-            '-f' => $command->confirm('Generate a factory for the model?'),
-            '-m' => $command->confirm('Generate a migration for the model?'),
-            '-c' => $command->confirm('Generate a controller for the model?'),
+            '--factory'    => $command->confirm('Generate a factory for the model?'),
+            '--migration'  => $command->confirm('Generate a migration for the model?'),
+            '--controller' => $command->confirm('Generate a controller for the model?'),
         ]);
 
         return array_merge($options, [
-            '-r' => $options['-c'] ? $command->confirm('Is this a resource controller?') : false,
+            '--resource' => $options['--controller'] ? $command->confirm('Is this a resource controller?') : false,
         ]);
     }
 }
