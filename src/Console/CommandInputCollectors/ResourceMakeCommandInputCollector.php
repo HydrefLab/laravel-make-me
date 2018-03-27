@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class ResourceMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -25,7 +27,7 @@ class ResourceMakeCommandInputCollector
     private function collectResourceOptions(Command $command): array
     {
         return [
-            'name' => $command->ask('Resource name'),
+            'name' => $this->collectNameArgumentWithPostfix($command, 'resource'),
         ];
     }
 
@@ -35,7 +37,7 @@ class ResourceMakeCommandInputCollector
      */
     private function collectResourceCollectionOptions(Command $command): array
     {
-        $resource = $command->ask('Resource name');
+        $resource = $this->collectNameArgument($command, 'resource');
 
         if (!Str::endsWith($resource, 'Collection')
             && $command->confirm("Append 'Collection' postfix to the resource name?")

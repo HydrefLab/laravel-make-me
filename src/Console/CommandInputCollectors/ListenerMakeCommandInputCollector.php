@@ -3,9 +3,12 @@
 namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class ListenerMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +16,7 @@ class ListenerMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'     => $command->ask('Listener name'),
+            'name'     => $this->collectNameArgumentWithPostfix($command, 'listener'),
             '--queued' => $command->confirm('Should event listener be queued?'),
             '--event'  => $this->collectEventOption($command),
         ];
@@ -26,7 +29,7 @@ class ListenerMakeCommandInputCollector
     private function collectEventOption(Command $command)
     {
         return $command->confirm('Do you want to listen for a particular event?')
-            ? $command->ask('Event class to listen for')
+            ? Str::studly($command->ask('Event class to listen for'))
             : false;
     }
 }

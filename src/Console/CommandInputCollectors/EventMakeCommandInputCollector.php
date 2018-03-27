@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class EventMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class EventMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Event name'),
+            'name' => $this->collectNameArgument($command, 'event'),
         ];
     }
 }

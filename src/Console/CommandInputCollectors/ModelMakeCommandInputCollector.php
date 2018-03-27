@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class ModelMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class ModelMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         $options = [
-            'name'    => $command->ask('Model name'),
+            'name'    => $this->collectNameArgument($command, 'model'),
             '--pivot' => $command->confirm('Is the model a pivot model?'),
             '--force' => $command->confirm('Override existing model class?'),
         ];

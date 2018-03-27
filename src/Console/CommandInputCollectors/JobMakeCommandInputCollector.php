@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class JobMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class JobMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'   => $command->ask('Job name'),
+            'name'   => $this->collectNameArgument($command, 'job'),
             '--sync' => $command->confirm('Is the job synchronous?'),
         ];
     }

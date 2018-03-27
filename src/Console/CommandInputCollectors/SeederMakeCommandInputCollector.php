@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class SeederMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class SeederMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Seeder name'),
+            'name' => $this->collectNameArgumentWithPostfix($command, 'seeder'),
         ];
     }
 }

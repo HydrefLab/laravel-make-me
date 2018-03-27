@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class MailMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class MailMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'       => $command->ask('Mail name'),
+            'name'       => $this->collectNameArgument($command, 'mail'),
             '--markdown' => $this->collectMarkdownOption($command),
             '--force'    => $command->confirm('Override existing mailable class?'),
         ];

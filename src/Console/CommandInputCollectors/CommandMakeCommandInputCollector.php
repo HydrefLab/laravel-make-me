@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class CommandMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class CommandMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'      => $command->ask('Command name'),
+            'name'      => $this->collectNameArgumentWithPostfix($command, 'command'),
             '--command' => $command->ask('Command name use in the terminal', 'command:name'),
         ];
     }

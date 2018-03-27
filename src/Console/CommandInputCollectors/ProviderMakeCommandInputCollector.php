@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class ProviderMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class ProviderMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Provider name'),
+            'name' => $this->collectNameArgumentWithPostfix($command, 'provider'),
         ];
     }
 }

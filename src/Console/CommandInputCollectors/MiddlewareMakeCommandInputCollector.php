@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class MiddlewareMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class MiddlewareMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Middleware name'),
+            'name' => $this->collectNameArgument($command, 'middleware'),
         ];
     }
 }

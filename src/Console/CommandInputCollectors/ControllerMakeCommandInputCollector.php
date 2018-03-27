@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class ControllerMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class ControllerMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         $options = [
-            'name' => $command->ask('Controller name'),
+            'name' => $this->collectNameArgumentWithPostfix($command, 'controller'),
         ];
 
         if ($command->confirm('Is this a resource controller?')) {
@@ -34,7 +36,7 @@ class ControllerMakeCommandInputCollector
     private function collectParentOption(Command $command)
     {
         return $command->confirm('Is this a nested resource controller?')
-            ? $command->ask('Parent model name')
+            ? $this->collectNameArgument($command, 'parent model')
             : false;
     }
 
@@ -45,7 +47,7 @@ class ControllerMakeCommandInputCollector
     private function collectModelOption(Command $command)
     {
         return $command->confirm('Set route model binding?')
-            ? $command->ask('Model name')
+            ? $this->collectNameArgument($command, 'model')
             : false;
     }
 }

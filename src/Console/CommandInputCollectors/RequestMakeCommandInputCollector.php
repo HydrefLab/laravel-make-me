@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class RequestMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class RequestMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name' => $command->ask('Request name'),
+            'name' => $this->collectNameArgumentWithPostfix($command, 'request'),
         ];
     }
 }

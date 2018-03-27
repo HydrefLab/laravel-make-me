@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class TestMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class TestMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'   => $command->ask('Test name'),
+            'name'   => $this->collectNameArgumentWithPostfix($command, 'test'),
             '--unit' => $command->confirm('Is this a unit test?'),
         ];
     }

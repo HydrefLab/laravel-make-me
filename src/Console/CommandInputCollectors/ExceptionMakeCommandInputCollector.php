@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class ExceptionMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class ExceptionMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'     => $command->ask('Exception name'),
+            'name'     => $this->collectNameArgumentWithPostfix($command, 'exception'),
             '--render' => $command->confirm('Add an empty render method?'),
             '--report' => $command->confirm('Add an empty report method?'),
         ];

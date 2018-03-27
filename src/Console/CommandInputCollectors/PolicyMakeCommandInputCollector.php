@@ -3,9 +3,12 @@
 namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class PolicyMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +16,7 @@ class PolicyMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'    => $command->ask('Policy name'),
+            'name'    => $this->collectNameArgumentWithPostfix($command, 'policy'),
             '--model' => $this->collectModelOption($command),
         ];
     }
@@ -25,7 +28,7 @@ class PolicyMakeCommandInputCollector
     private function collectModelOption(Command $command)
     {
         return $command->confirm('Is the policy related with the model?')
-            ? $command->ask('Model name related with the policy')
+            ? Str::studly($command->ask('Model name related with the policy'))
             : false;
     }
 }

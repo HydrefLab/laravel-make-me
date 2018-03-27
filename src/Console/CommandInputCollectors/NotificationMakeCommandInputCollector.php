@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class NotificationMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -13,7 +15,7 @@ class NotificationMakeCommandInputCollector
     public function __invoke(Command $command): array
     {
         return [
-            'name'       => $command->ask('Notification name'),
+            'name'       => $this->collectNameArgumentWithPostfix($command, 'notification'),
             '--markdown' => $this->collectMarkdownOption($command),
             '--force'    => $command->confirm('Override existing notification class?'),
         ];

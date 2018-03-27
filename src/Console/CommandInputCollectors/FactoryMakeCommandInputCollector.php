@@ -3,10 +3,11 @@
 namespace HydrefLab\Laravel\Make\Console\CommandInputCollectors;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class FactoryMakeCommandInputCollector
 {
+    use CollectNameArgumentTrait;
+
     /**
      * @param Command $command
      * @return array
@@ -24,14 +25,8 @@ class FactoryMakeCommandInputCollector
      */
     private function collectFactoryOptions(Command $command): array
     {
-        $factory = $command->ask('Factory name');
-
-        if (!Str::endsWith($factory, 'Factory') && $command->confirm("Append 'Factory' postfix to the factory name?")) {
-            $factory .= 'Factory';
-        }
-
         return [
-            'name' => $factory,
+            'name' => $this->collectNameArgumentWithPostfix($command, 'factory'),
         ];
     }
 
@@ -41,7 +36,7 @@ class FactoryMakeCommandInputCollector
      */
     private function collectFactoryAndModelOptions(Command $command): array
     {
-        $model = $command->ask('Model name');
+        $model = $this->collectNameArgument($command, 'model');
 
         return [
             'name'    => $model . 'Factory',
