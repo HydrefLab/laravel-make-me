@@ -45,6 +45,20 @@ If you want to check what's available, simply run:
 php artisan make --list
 ```
 
+## Naming Convention
+
+All entered class names will be transformed to pascal case (known as upper camel case).
+Examples:
+* `MyModel` will be transformed into `MyModel`,
+* `myModel` will be transformed into `MyModel`,
+* `my-model` will be transformed into `MyModel`,
+* `my model` will be transformed into `MyModel`.
+
+In Laravel application, some classes contain postfix which indicates what type of class they are. For example,
+controller usually has `Controller` postfix after its _regular_ name - `UsersController`. The same for Artisan commands
+or form requests. Interactive make will ask you if you want to add resource postfix for some resource types, so you can
+automatically add or skip it while generating class.
+
 ## Why
 
 Laravel's Artisan is a great tool. Laravel's generators (make) commands are great tools. Quite 
@@ -135,8 +149,8 @@ class MyAwesomeMakeCommand extends \Illuminate\Console\Command
     public function collectInputForInteractiveMake()
     {
         return [
-            'name' => $this->ask('What is your name, awesome?'),
-            '-s' => $this->ask('How awesome are you?', 10),
+            'name'    => $this->ask('What is your name, awesome?'),
+            '--scale' => $this->ask('How awesome are you?', 10),
         ];
     }
 }
