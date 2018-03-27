@@ -15,7 +15,19 @@ trait CollectNameArgumentTrait
     private function collectNameArgument(Command $command, string $resourceType): string
     {
         $resourceType = ucfirst($resourceType);
-        $name = ucfirst($command->ask("$resourceType name"));
+
+        return Str::studly($command->ask("$resourceType name"));
+    }
+
+    /**
+     * @param Command $command
+     * @param string $resourceType
+     * @return string
+     */
+    private function collectNameArgumentWithPostfix(Command $command, string $resourceType): string
+    {
+        $resourceType = ucfirst($resourceType);
+        $name = $this->collectNameArgument($command, $resourceType);
 
         return $this->shouldAddPostfix($command, $name, $resourceType)
             ? $name . $resourceType
